@@ -5,6 +5,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'plugin:react/recommended',
     'airbnb',
     'prettier'
   ],
@@ -17,7 +18,6 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
   },
   plugins: [
     'react',
