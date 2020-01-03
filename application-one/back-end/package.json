@@ -6,6 +6,7 @@
   },
   "scripts": {
     "start": "echo 'start'",
-    "test": "echo 'hello'"
+    "test": "echo 'hello'",
+    "lint": "echo 'eslint'"
   }
 }

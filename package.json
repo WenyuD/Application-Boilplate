@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-decorators": "^7.7.4",
@@ -35,13 +36,15 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
     "prettier": "1.19.1",
     "react-app-rewired": "^2.1.5",
     "standard-version": "^7.0.1"
   },
   "scripts": {
     "release": "standard-version",
-    "lint": "eslint"
+    "build": "babel application-one --out-dir dist",
+    "build-watch": "babel application-one --watch --out-dir dist"
   },
   "private": true,
   "workspaces": [
