@@ -25,5 +25,6 @@ module.exports = {
     'jest'
   ],
   rules: {
+    'prettier/prettier': ['error']
   },
 };

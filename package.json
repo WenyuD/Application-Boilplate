@@ -52,6 +52,7 @@
   ],
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
+    "concurrently": "^5.0.2",
     "react-hot-loader": "^4.12.18"
   }
 }
