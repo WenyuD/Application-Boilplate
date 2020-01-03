@@ -11,6 +11,7 @@ module.exports = {
     '@babel/preset-react',
   ],
   plugins: [
+    "react-hot-loader/babel",
     // @babel/preset-stage-1: A formal proposal for the feature.
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-proposal-logical-assignment-operators',

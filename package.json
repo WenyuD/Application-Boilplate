@@ -45,5 +45,9 @@
   "private": true,
   "workspaces": [
     "application-one/*"
-  ]
+  ],
+  "dependencies": {
+    "react-hot-loader": "^4.12.18",
+    "@hot-loader/react-dom": "^16.8.6"
+  }
 }

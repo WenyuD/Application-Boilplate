@@ -5,6 +5,7 @@
     "express": "^4.17.1"
   },
   "scripts": {
+    "start": "echo 'start'",
     "test": "echo 'hello'"
   }
 }
