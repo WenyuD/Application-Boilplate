@@ -36,6 +36,7 @@
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "prettier": "1.19.1",
+    "react-app-rewired": "^2.1.5",
     "standard-version": "^7.0.1"
   },
   "scripts": {
@@ -47,7 +48,7 @@
     "application-one/*"
   ],
   "dependencies": {
-    "react-hot-loader": "^4.12.18",
-    "@hot-loader/react-dom": "^16.8.6"
+    "@hot-loader/react-dom": "^16.8.6",
+    "react-hot-loader": "^4.12.18"
   }
 }
