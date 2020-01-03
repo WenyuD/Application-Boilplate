@@ -5,8 +5,8 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
+    'prettier'
   ],
   globals: {
     Atomics: 'readonly',
@@ -21,7 +21,8 @@ module.exports = {
   },
   plugins: [
     'react',
-    'prettier'
+    'prettier',
+    'jest'
   ],
   rules: {
   },

@@ -1,10 +1,10 @@
 {
-  "name": "back-end",
+  "name": "@app/api",
   "version": "0.1.0",
   "dependencies": {
     "express": "^4.17.1"
   },
   "scripts": {
-    "test": "jest"
+    "test": "echo 'hello'"
   }
 }

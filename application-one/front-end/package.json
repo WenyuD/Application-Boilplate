@@ -1,5 +1,5 @@
 {
-  "name": "front-end",
+  "name": "@app/ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -32,9 +32,10 @@
     ]
   },
   "devDependencies": {
+    "enzyme-to-json": "^3.4.3",
     "jest": "^24.9.0"
   },
-  "resolutions": { 
-    "serialize-javascript": "^2.1.1" 
+  "resolutions": {
+    "serialize-javascript": "^2.1.1"
   }
 }
