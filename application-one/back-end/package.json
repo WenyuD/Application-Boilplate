@@ -5,6 +5,8 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "test": "echo 'hello'"
+    "start": "echo 'start'",
+    "test": "echo 'hello'",
+    "lint": "echo 'eslint'"
   }
 }
