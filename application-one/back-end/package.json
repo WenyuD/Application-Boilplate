@@ -5,7 +5,7 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "start": "echo 'start'",
+    "start": "nodemon src/server.js",
     "test": "echo 'hello'",
     "lint": "echo 'eslint'"
   }

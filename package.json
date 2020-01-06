@@ -44,7 +44,8 @@
   "scripts": {
     "release": "standard-version",
     "build": "babel application-one --out-dir dist",
-    "build-watch": "babel application-one --watch --out-dir dist"
+    "build-watch": "babel application-one --watch --out-dir dist",
+    "start": "concurrently \"cd application-one/front-end && npm start\" \"cd application-one/back-end && npm start\""
   },
   "private": true,
   "workspaces": [
