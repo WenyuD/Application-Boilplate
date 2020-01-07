@@ -1,21 +1,13 @@
-const mysql = require('mysql');
+const Sequelize = require('sequelize');
+require('dotenv').config();
 
-const connect = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: MYSQL_USER_NAME,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
+const connect = new Sequelize(
+  process.env.MYSQL_DATABASE,
+  process.env.MYSQL_USER_NAME,
+  process.env.MYSQL_PASSWORD, {
+    host: process.env.MYSQL_HOST,
+    port: process.env.MYSQL_PORT,
+    dialect: 'mysql'
 });
 
-let promisedQuery = (sqlString, queryInput) => {
-  new Promise((resolve, reject) => {
-    connect.query(sqlString, queryInput, (error, result) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(result);
-    });
-  });
-};
-
-module.exports = { promisedQuery };
+module.exports = connect;

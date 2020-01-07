@@ -1,4 +1,5 @@
-const express = require('express');
-const app = express();
+const Koa = require('koa');
 
-module.exports = app;
+const server = new Koa();
+
+module.exports = server;
