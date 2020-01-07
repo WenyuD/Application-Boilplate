@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button, TextField, FormControl, FormHelperText, ThemeProvider } from '@material-ui/core';
+import theme from '../styles';
 import './styles.css';
 
 class SignUp extends React.Component {
@@ -7,8 +9,10 @@ class SignUp extends React.Component {
     this.state = {
       password: '',
       repeatPassword: '',
+      emailNotice: '',
       passwordNotice: '',
-      repeatPasswordNotice: ''
+      repeatPasswordNotice: '',
+      disabledToggle: true
     };
     this.setLoginStatus = this.setLoginStatus.bind(this);
     this.setPassword = this.setPassword.bind(this);
@@ -42,42 +46,60 @@ class SignUp extends React.Component {
       if (this.state.repeatPassword && this.state.repeatPassword !== this.state.password) {
         this.setState({repeatPasswordNotice: 'Passwords Not Match!'});
       } else if (this.state.repeatPassword && this.state.repeatPassword === this.state.password) {
-        this.setState({repeatPasswordNotice: 'Passwords Match!'}); 
+        this.setState({
+          repeatPasswordNotice: '',
+          disabledToggle: false
+        }); 
       }
     }
   }
 
   render() {
     return (
-      <form className="forms-container">
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="Username or E-mail" 
-        />
-        <span>{this.state.passwordNotice}</span>
-        <input 
-          type="password" 
-          name="password" 
-          placeholder="Password" 
-          value={this.state.password} 
-          onChange={event => 
-            this.checkPassword('password',event.target.value)
-          } 
-        />
-        <span>{this.state.repeatPasswordNotice}</span>
-        <input 
-          type="password" 
-          name="password" 
-          placeholder="Confirm Password" 
-          value={this.state.repeatPassword} 
-          onChange={event => 
-            this.checkPassword('checkPassword',event.target.value)
-          } 
-        />
-        <span onClick={() => this.setLoginStatus()}>Sign In</span>
-        <button type="submit">Sign Up</button>
-      </form>
+      <ThemeProvider theme={theme}>
+        <form className="forms-container">
+          <FormControl>
+            <TextField 
+              required 
+              id="email" 
+              label="E-mail" 
+              type="email" 
+              color="secondary" 
+            />
+            <FormHelperText error>{this.state.emailNotice}</FormHelperText>
+          </FormControl> 
+          <FormControl>
+            <TextField
+              required
+              id="password" 
+              label="Password" 
+              type="password" 
+              color="secondary" 
+              value={this.state.password} 
+              onChange={event => 
+                this.checkPassword('password',event.target.value)
+              }
+            />
+            <FormHelperText error>{this.state.passwordNotice}</FormHelperText>  
+          </FormControl>
+          <FormControl>
+            <TextField 
+              required
+              id="password" 
+              label="Confirm Password" 
+              type="password" 
+              color="secondary" 
+              value={this.state.repeatPassword} 
+              onChange={event => 
+                this.checkPassword('checkPassword',event.target.value)
+              }
+            />
+            <FormHelperText error>{this.state.repeatPasswordNotice}</FormHelperText>
+          </FormControl>
+          <Button disabled={this.state.disabledToggle} type="submit" variant="contained" color="primary" disableElevation>Sign Up</Button>
+          <Button color="secondary" onClick={() => this.setLoginStatus()}>Sign In</Button>
+        </form>
+      </ThemeProvider>
     );
   }
 }
