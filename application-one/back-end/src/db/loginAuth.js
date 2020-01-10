@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const connect = require('./db');
 
-const LoginAuth = connect.define('loginAuth', {
+const LoginAuth = connect.define('user_info', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,

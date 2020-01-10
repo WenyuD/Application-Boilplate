@@ -7,6 +7,7 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       password: '',
       repeatPassword: '',
       emailNotice: '',
@@ -14,10 +15,17 @@ class SignUp extends React.Component {
       repeatPasswordNotice: '',
       disabledToggle: true
     };
+    this.setEmail = this.setEmail.bind(this);
     this.setLoginStatus = this.setLoginStatus.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRepeatPassword = this.setRepeatPassword.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchSignUp = this.fetchSignUp.bind(this);
+  }
+
+  setEmail(value) {
+    this.setState({email: value, emailNotice: ''});
   }
 
   setLoginStatus() {
@@ -54,17 +62,44 @@ class SignUp extends React.Component {
     }
   }
 
+  handleSubmit() {
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    this.fetchSignUp(data);
+  }
+
+  async fetchSignUp(data) {
+    const response = await fetch('http://localhost:3001/signup', { 
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    let checkExists = await response.json();
+    if (checkExists === 'This email already exists!') {
+      this.setState({emailNotice: 'This email already exists!'});
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <form className="forms-container">
+        <form className="forms-container" onSubmit={e => { e.preventDefault()}}>
           <FormControl>
             <TextField 
               required 
               id="email" 
               label="E-mail" 
               type="email" 
-              color="secondary" 
+              color="secondary"
+              value={this.state.email}
+              onChange={event => 
+                this.setEmail(event.target.value)
+              } 
             />
             <FormHelperText error>{this.state.emailNotice}</FormHelperText>
           </FormControl> 
@@ -85,7 +120,7 @@ class SignUp extends React.Component {
           <FormControl>
             <TextField 
               required
-              id="password" 
+              id="confirmPassword" 
               label="Confirm Password" 
               type="password" 
               color="secondary" 
@@ -96,8 +131,22 @@ class SignUp extends React.Component {
             />
             <FormHelperText error>{this.state.repeatPasswordNotice}</FormHelperText>
           </FormControl>
-          <Button disabled={this.state.disabledToggle} type="submit" variant="contained" color="primary" disableElevation>Sign Up</Button>
-          <Button color="secondary" onClick={() => this.setLoginStatus()}>Sign In</Button>
+          <Button 
+            disabled={this.state.disabledToggle} 
+            type="submit" 
+            variant="contained" 
+            color="primary" 
+            disableElevation
+            onClick={() => this.handleSubmit()}
+          >
+            Sign Up
+          </Button>
+          <Button 
+            color="secondary" 
+            onClick={() => this.setLoginStatus()}
+          >
+            Sign In
+          </Button>
         </form>
       </ThemeProvider>
     );
