@@ -3,8 +3,8 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       loginAsSignIn: true,
     };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button, TextField, FormControl, FormHelperText, ThemeProvider } from '@material-ui/core';
 import theme from '../styles';
 import './styles.css';
@@ -52,7 +53,7 @@ class SignIn extends React.Component {
     } else if (checkExists === 'Password incorrect!') {
       this.setState({passwordNotice: 'Incorrect password!'});
     } else {
-      console.log('go to dashboard');
+      this.props.history.push('/dashboard');
     }
   }
 
@@ -110,4 +111,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);
