@@ -1,5 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button, TextField, FormControl, FormHelperText, ThemeProvider } from '@material-ui/core';
+import SuccessAlert from '../common/SuccessAlert';
 import theme from '../styles';
 import './styles.css';
 
@@ -13,23 +15,20 @@ class SignUp extends React.Component {
       emailNotice: '',
       passwordNotice: '',
       repeatPasswordNotice: '',
-      disabledToggle: true
+      disabledToggle: true,
+      alertToggle: false
     };
     this.setEmail = this.setEmail.bind(this);
-    this.setLoginStatus = this.setLoginStatus.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRepeatPassword = this.setRepeatPassword.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchSignUp = this.fetchSignUp.bind(this);
+    this.setAlertToggle = this.setAlertToggle.bind(this);
   }
 
   setEmail(value) {
     this.setState({email: value, emailNotice: ''});
-  }
-
-  setLoginStatus() {
-    this.props.setLoginStatus();
   }
 
   setPassword(value) {
@@ -82,7 +81,13 @@ class SignUp extends React.Component {
     let checkExists = await response.json();
     if (checkExists === 'This email already exists!') {
       this.setState({emailNotice: 'This email already exists!'});
+    } else if (checkExists === 'Created new user!') {
+      this.setAlertToggle();
     }
+  }
+
+  setAlertToggle() {
+    this.setState({alertToggle: !this.state.alertToggle});
   }
 
   render() {
@@ -143,14 +148,15 @@ class SignUp extends React.Component {
           </Button>
           <Button 
             color="secondary" 
-            onClick={() => this.setLoginStatus()}
+            onClick={() => this.props.setLoginStatus()}
           >
             Sign In
           </Button>
         </form>
+        <SuccessAlert alertToggle={this.state.alertToggle} setAlertToggle={this.setAlertToggle} setLoginStatus={this.props.setLoginStatus} />
       </ThemeProvider>
     );
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

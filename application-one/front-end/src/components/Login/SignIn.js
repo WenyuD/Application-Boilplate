@@ -13,13 +13,8 @@ class SignIn extends React.Component {
       emailNotice: '',
       passwordNotice: ''
     };
-    this.setLoginStatus = this.setLoginStatus.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchSignIn = this.fetchSignIn.bind(this);
-  }
-
-  setLoginStatus() {
-    this.props.setLoginStatus();
   }
 
   setEmail(value) {
@@ -101,7 +96,7 @@ class SignIn extends React.Component {
           </Button>
           <Button 
             color="secondary" 
-            onClick={() => this.setLoginStatus()}
+            onClick={() => this.props.setLoginStatus()}
           >
             Sign Up
           </Button>
