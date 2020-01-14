@@ -28,17 +28,27 @@ const signIn = async ctx => {
   } else {
     try {
       if (await bcrypt.compare(ctx.request.body.password, checkExists.dataValues.user_password)) {
-        ctx.response.body = JSON.stringify('User info Correct!');
+        const token = common.authService(ctx.request.body.email);
+        ctx.headers.authorization = `Bearer ${token}`;
+        ctx.cookies.set('token', token, {
+          httpOnly: true
+        });
       } else {
         ctx.response.body = JSON.stringify('Password incorrect!');
       };
     } catch {
-      ctx.response.status(500).send();
+      ctx.status = 500;
     }
   }
 }
 
+const checkUserToken = ctx => {
+  const userEmail = ctx.request.user.email;
+  ctx.response.body = JSON.stringify(userEmail);
+}
+
 module.exports = {
   createNewUser,
-  signIn
+  signIn,
+  checkUserToken
 }
