@@ -33,6 +33,7 @@ const signIn = async ctx => {
         ctx.cookies.set('token', token, {
           httpOnly: true
         });
+        ctx.response.body = JSON.stringify('User information correct!');
       } else {
         ctx.response.body = JSON.stringify('Password incorrect!');
       };
