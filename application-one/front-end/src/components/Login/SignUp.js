@@ -4,6 +4,7 @@ import { Button, TextField, FormControl, FormHelperText, ThemeProvider } from '@
 import SuccessAlert from '../common/SuccessAlert';
 import PasswordValidation from '../common/PasswordValidation';
 import { passwordValidationToggle } from '../methods/passwordValidationToggle';
+import { emailValidationToggle } from '../methods/emailValidationToggle';
 import theme from '../styles';
 import './styles.css';
 
@@ -21,53 +22,69 @@ class SignUp extends React.Component {
       passwordLowercaseNotification: '',
       passwordUppercaseNotification: '',
       passwordNumberNotification: '',
+      emailValid: false,
+      passwordValid: false,
+      repeatPasswordValid: false,
       disabledToggle: true,
       alertToggle: false
     };
     this.setEmail = this.setEmail.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRepeatPassword = this.setRepeatPassword.bind(this);
+    this.emailValidation = this.emailValidation.bind(this);
+    this.passwordValidation = this.passwordValidation.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchSignUp = this.fetchSignUp.bind(this);
     this.setAlertToggle = this.setAlertToggle.bind(this);
+    this.setDisabledToggle = this.setDisabledToggle.bind(this);
     this.setState = this.setState.bind(this);
   }
 
   setEmail(value) {
-    this.setState({email: value, emailNotice: ''});
+    this.setState({ email: value });
   }
 
   setPassword(value) {
-    this.setState({password: value});
+    this.setState({ password: value });
   }
 
   setRepeatPassword(value) {
     this.setState({repeatPassword: value});
   }
 
-  async checkPassword(action, value) {
-    if (action === 'password') {
-      await this.setPassword(value);
-    } else if (action === 'checkPassword') {
-      await this.setRepeatPassword(value);
-    }
+  emailValidation() {
+    emailValidationToggle(this.setState, this.state.email);
+    this.setDisabledToggle();
+  }
 
-    if (!this.state.password) {
-      this.setState({passwordNotice: 'Please fill out the password'});
-    } else {
-      passwordValidationToggle(this.setState, this.state.password);
-      if (this.state.repeatPassword && this.state.repeatPassword !== this.state.password) {
-        this.setState({repeatPasswordNotice: 'Passwords not match'});
-      } else if (this.state.repeatPassword && this.state.repeatPassword === this.state.password) {
-        this.setState({
-          repeatPasswordNotice: '',
-          disabledToggle: false
-        }); 
-      }
-    }
+  async passwordValidation(value) {
+    await this.setPassword(value);
+    passwordValidationToggle(this.setState, this.state.password);
+    this.setDisabledToggle();
+  }
 
-    
+  async checkPassword(value) {
+    await this.setRepeatPassword(value);
+
+    if (this.state.repeatPassword && this.state.repeatPassword !== this.state.password) {
+      this.setState({
+        repeatPasswordNotice: 'Passwords not match',
+        repeatPasswordValid: false
+      });
+    } else if (this.state.repeatPassword && this.state.repeatPassword === this.state.password) {
+      this.setState({
+        repeatPasswordNotice: '',
+        repeatPasswordValid: true
+      }); 
+    }
+    this.setDisabledToggle();
+  }
+
+  setDisabledToggle() {
+    this.state.emailValid && this.state.passwordValid && this.state.repeatPasswordValid ? 
+      this.setState({ disabledToggle: false }) :
+      this.setState({ disabledToggle: true })
   }
 
   handleSubmit() {
@@ -113,7 +130,10 @@ class SignUp extends React.Component {
               value={this.state.email}
               onChange={event => 
                 this.setEmail(event.target.value)
-              } 
+              }
+              onBlur={() => {
+                emailValidationToggle(this.setState, this.state.email)
+              }} 
             />
             <FormHelperText error>{this.state.emailNotice}</FormHelperText>
           </FormControl> 
@@ -126,10 +146,13 @@ class SignUp extends React.Component {
               color="secondary" 
               value={this.state.password} 
               onChange={event => 
-                this.checkPassword('password',event.target.value)
+                this.passwordValidation(event.target.value)
+              }
+              onBlur={event => 
+                this.passwordValidation(event.target.value)
               }
             />
-            <FormHelperText error>
+            <FormHelperText error component={'div'}>
               <PasswordValidation 
                 passwordNotice={this.state.passwordNotice}
                 passwordLengthNotification={this.state.passwordLengthNotification}
@@ -148,7 +171,7 @@ class SignUp extends React.Component {
               color="secondary" 
               value={this.state.repeatPassword} 
               onChange={event => 
-                this.checkPassword('checkPassword',event.target.value)
+                this.checkPassword(event.target.value)
               }
             />
             <FormHelperText error>{this.state.repeatPasswordNotice}</FormHelperText>
@@ -170,7 +193,11 @@ class SignUp extends React.Component {
             Sign In
           </Button>
         </form>
-        <SuccessAlert alertToggle={this.state.alertToggle} setAlertToggle={this.setAlertToggle} setLoginStatus={this.props.setLoginStatus} />
+        <SuccessAlert 
+          alertToggle={this.state.alertToggle} 
+          setAlertToggle={this.setAlertToggle} 
+          setLoginStatus={this.props.setLoginStatus} 
+        />
       </ThemeProvider>
     );
   }

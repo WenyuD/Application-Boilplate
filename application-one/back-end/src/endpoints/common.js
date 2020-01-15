@@ -18,16 +18,16 @@ const authenticatedToken = (ctx, next) => {
   const token = ctx.cookies.get('token');
   if (!token) {
     ctx.status = 401;
-  } else {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        ctx.status = 403;
-      } else {
-        ctx.request.user = user;
-        next();
-      }
-    })
+    return;
   }
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      ctx.status = 403;
+    } else {
+      ctx.request.user = user;
+      next();
+    }
+  })
 }
 
 module.exports = {

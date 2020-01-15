@@ -10,11 +10,11 @@ function PasswordValidation(props) {
   ];
 
   return (
-    <span>
-      {notifications.map(notice => 
-        <div key={notice}>{notice}</div>
+    <div>
+      {notifications.map((notice, index) => 
+        <div key={index + notice}>{notice}</div>
       )}
-    </span>
+    </div>
   )
 }
 
