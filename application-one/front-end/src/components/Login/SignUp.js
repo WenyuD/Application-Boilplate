@@ -2,6 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, TextField, FormControl, FormHelperText, ThemeProvider } from '@material-ui/core';
 import SuccessAlert from '../common/SuccessAlert';
+import PasswordValidation from '../common/PasswordValidation';
+import { passwordValidationToggle } from '../methods/passwordValidationToggle';
 import theme from '../styles';
 import './styles.css';
 
@@ -13,8 +15,12 @@ class SignUp extends React.Component {
       password: '',
       repeatPassword: '',
       emailNotice: '',
-      passwordNotice: '',
       repeatPasswordNotice: '',
+      passwordNotice: '',
+      passwordLengthNotification: '',
+      passwordLowercaseNotification: '',
+      passwordUppercaseNotification: '',
+      passwordNumberNotification: '',
       disabledToggle: true,
       alertToggle: false
     };
@@ -25,6 +31,7 @@ class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchSignUp = this.fetchSignUp.bind(this);
     this.setAlertToggle = this.setAlertToggle.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   setEmail(value) {
@@ -47,11 +54,11 @@ class SignUp extends React.Component {
     }
 
     if (!this.state.password) {
-      this.setState({passwordNotice: 'Please fill out the password!'});
+      this.setState({passwordNotice: 'Please fill out the password'});
     } else {
-      this.setState({passwordNotice: ''})
+      passwordValidationToggle(this.setState, this.state.password);
       if (this.state.repeatPassword && this.state.repeatPassword !== this.state.password) {
-        this.setState({repeatPasswordNotice: 'Passwords Not Match!'});
+        this.setState({repeatPasswordNotice: 'Passwords not match'});
       } else if (this.state.repeatPassword && this.state.repeatPassword === this.state.password) {
         this.setState({
           repeatPasswordNotice: '',
@@ -59,6 +66,8 @@ class SignUp extends React.Component {
         }); 
       }
     }
+
+    
   }
 
   handleSubmit() {
@@ -120,7 +129,15 @@ class SignUp extends React.Component {
                 this.checkPassword('password',event.target.value)
               }
             />
-            <FormHelperText error>{this.state.passwordNotice}</FormHelperText>  
+            <FormHelperText error>
+              <PasswordValidation 
+                passwordNotice={this.state.passwordNotice}
+                passwordLengthNotification={this.state.passwordLengthNotification}
+                passwordLowercaseNotification={this.state.passwordLowercaseNotification}
+                passwordUppercaseNotification={this.state.passwordUppercaseNotification}
+                passwordNumberNotification={this.state.passwordNumberNotification}
+              />
+            </FormHelperText>
           </FormControl>
           <FormControl>
             <TextField 
