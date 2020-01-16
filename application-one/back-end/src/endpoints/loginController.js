@@ -12,11 +12,13 @@ const createNewUser = async ctx => {
         email: ctx.request.body.email,
         user_password: hashedPassword
       });
+      ctx.status = 200;
       ctx.response.body = JSON.stringify('Created new user!');
     } catch {
-      ctx.response.status(500).send();
+      ctx.status = 500;
     }
   } else {
+    ctx.status = 403;
     ctx.response.body = JSON.stringify('This email already exists!');
   }
 }
@@ -24,22 +26,25 @@ const createNewUser = async ctx => {
 const signIn = async ctx => {
   const checkExists = await common.checkExists(ctx.request.body.email);
   if (checkExists === null) {
+    ctx.status = 404;
     ctx.response.body = JSON.stringify('User email does not exist!');
-  } else {
-    try {
-      if (await bcrypt.compare(ctx.request.body.password, checkExists.dataValues.user_password)) {
-        const token = common.authService(ctx.request.body.email);
-        ctx.headers.authorization = `Bearer ${token}`;
-        ctx.cookies.set('token', token, {
-          httpOnly: true
-        });
-        ctx.response.body = JSON.stringify('User information correct!');
-      } else {
-        ctx.response.body = JSON.stringify('Password incorrect!');
-      };
-    } catch {
-      ctx.status = 500;
-    }
+    return;
+  }
+  try {
+    if (await bcrypt.compare(ctx.request.body.password, checkExists.dataValues.user_password)) {
+      const token = common.authService(ctx.request.body.email);
+      ctx.headers.authorization = `Bearer ${token}`;
+      ctx.cookies.set('token', token, {
+        httpOnly: true
+      });
+      ctx.status = 200;
+      ctx.response.body = JSON.stringify('User information correct!');
+    } else {
+      ctx.status = 401;
+      ctx.response.body = JSON.stringify('Password incorrect!');
+    };
+  } catch {
+    ctx.status = 500;
   }
 }
 

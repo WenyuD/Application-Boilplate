@@ -11,7 +11,7 @@ const checkExists = email =>
 
 const authService = email => {
   const user = { email: email };
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
 }
 
 const authenticatedToken = (ctx, next) => {
@@ -19,7 +19,7 @@ const authenticatedToken = (ctx, next) => {
   if (!token) {
     ctx.status = 401;
     return;
-  }
+  };
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       ctx.status = 403;
@@ -27,7 +27,7 @@ const authenticatedToken = (ctx, next) => {
       ctx.request.user = user;
       next();
     }
-  })
+  });
 }
 
 module.exports = {
