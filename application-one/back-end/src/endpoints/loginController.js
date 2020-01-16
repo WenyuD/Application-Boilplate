@@ -50,6 +50,7 @@ const signIn = async ctx => {
 
 const checkUserToken = ctx => {
   const userEmail = ctx.request.user.email;
+  ctx.status = 200;
   ctx.response.body = JSON.stringify(userEmail);
 }
 
