@@ -1,6 +1,6 @@
 const checkAuth = cookie => ({
   type: 'CHECK_AUTH',
-  paylaod: {
+  payload: {
     cookie
   }
 });

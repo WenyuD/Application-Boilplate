@@ -8,6 +8,7 @@ const server = new Koa();
 server
   .use(cors({
     credentials: true,
+    origin: '*',
     allowHeaders: ['Content-Type', 'Accept']
   }))
   .use(bodyParser())

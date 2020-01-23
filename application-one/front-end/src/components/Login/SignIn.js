@@ -48,6 +48,7 @@ class SignIn extends React.Component {
     } else if (checkExists === 'Password incorrect!') {
       this.setState({passwordNotice: 'Incorrect password!'});
     } else {
+      document.cookie = `token=${checkExists}`;
       this.props.history.push('/dashboard');
     }
   }

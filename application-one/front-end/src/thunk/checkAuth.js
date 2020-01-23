@@ -1,10 +1,10 @@
 import action from '../action/checkAuth';
 
-const checkAuth = cookie => {
+const checkAuth = data => {
   return async dispatch => {
-    const response = await fetch('http://localhost:3001/dashboard');
-    const data = response.json();
-    dispatch(action.checkAuth(data));
+    const response = await fetch(`http://localhost:3001/dashboard?token=${data}`);
+    const result = await response.json();
+    dispatch(action.checkAuth(result));
   }
 };
 

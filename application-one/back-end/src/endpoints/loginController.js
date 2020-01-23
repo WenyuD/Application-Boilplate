@@ -37,8 +37,9 @@ const signIn = async ctx => {
       ctx.cookies.set('token', token, {
         httpOnly: true
       });
+      ctx.set('Access-Control-Allow-Credentials', true);
       ctx.status = 200;
-      ctx.response.body = JSON.stringify('User information correct!');
+      ctx.response.body = JSON.stringify(token);
     } else {
       ctx.status = 401;
       ctx.response.body = JSON.stringify('Password incorrect!');
@@ -51,7 +52,7 @@ const signIn = async ctx => {
 const checkUserToken = ctx => {
   const userEmail = ctx.request.user.email;
   ctx.status = 200;
-  ctx.response.body = JSON.stringify(userEmail);
+  ctx.response.body = { userEmail };
 }
 
 module.exports = {
